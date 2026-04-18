@@ -8,14 +8,14 @@ yt = YouTube(url)
 
 if audioYes.lower() == 'y':
     print("Downloading audio of:", yt.title)
-    audioStream = yt.streams.get_highest_resolution()
+    audioStream = yt.streams.filter(only_audio=True).first()
     audioStream.download()
     print("Audio download complete!")
 
 elif audioYes.lower() == 'n':
     print("Download video:", yt.title)
-    video-stream = yt.streams.get_highest_resolution()
-    video-stream.download()
+    stream = yt.streams.get_highest_resolution()
+    stream.download()
     print("Download complete.")
 
 else:
