@@ -1,22 +1,21 @@
-from pytube import YouTube
+import yt_dlp
 
-url = input("Enter the full url of the video you want to download: ")
+url = input("enter the full url of the video you want to download: ")
 
-audioYes = input("Do you only want the audio?(Y/N): ")
+type = input("do you only want to download the audio of the video(y/n)?:")
 
-yt = YouTube(url)
-
-if audioYes.lower() == 'y':
-    print("Downloading audio of:", yt.title)
-    audioStream = yt.streams.filter(only_audio=True).first()
-    audioStream.download()
-    print("Audio download complete!")
-
-elif audioYes.lower() == 'n':
-    print("Download video:", yt.title)
-    stream = yt.streams.get_highest_resolution()
-    stream.download()
-    print("Download complete.")
-
+if type.lower == 'y':
+    ydl_opts = {
+            'format':'bestaudio/best',
+            'postprocessors': [{
+                'key':'FFmpegExtractAudio'
+                }],
+    }
 else:
-    print('run the program again and enter a valid input.')
+    ydl_opts = {
+            'format': 'bestaudio+bestvideo',
+            'merge_output_format': 'mp4',
+    }
+
+with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+    ydl.download(url)
